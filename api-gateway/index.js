@@ -56,7 +56,7 @@ app.use('/auth', createProxyMiddleware({
 // (from the JWT) to the downstream service as headers, so Admin/User
 // services know exactly who is calling without re-verifying the token.
 app.use('/admin', verifyToken('admin'), createProxyMiddleware({
-  target: 'http://localhost:5003',
+  target: process.env.ADMIN_SERVICE_URL,
   changeOrigin: true,
   pathRewrite: {
     '^/': '/admin/',
@@ -72,7 +72,7 @@ app.use('/admin', verifyToken('admin'), createProxyMiddleware({
 }));
 
 app.use('/user', verifyToken('user'), createProxyMiddleware({
-  target: 'http://localhost:5004',
+  target: process.env.USER_SERVICE_URL,
   changeOrigin: true,
   pathRewrite: {
     '^/': '/user/',
